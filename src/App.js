@@ -1,23 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
+import TextField from '@mui/material/TextField';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+      <nav className="navbar navbar-dark bg-dark">
         <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+          className="navbar-brand"
+          href="https://ctamas.github.io/sw-people/"
         >
-          Learn React
+          <i className="far fa-chart-bar" />
+          <span id="title">Star Wars Character Search</span>
         </a>
-      </header>
+      </nav>
+      <div className='search-container'>
+        <TextField className='search-field' label="Search Character" variant="standard" />
+      </div>
     </div>
   );
 }
