@@ -45,6 +45,8 @@
   padding: 8px;
   width: 100%;
   display: inline-flex;
+  align-items: center;
+  flex-direction: column;
   margin-right: 8px;
   margin-bottom: 8px;
   border: 1px solid black;
