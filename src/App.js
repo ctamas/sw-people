@@ -5,6 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import React from 'react';
+import Card from './components/card'
 
 function App() {
   const [characters, setCharacters] = React.useState([1]);
@@ -64,7 +65,8 @@ function App() {
         <div className='results-list'>
           <div className='character-card-container'>
           {characters.map((character, index) => {
-            return (<div className='character-card' key={index}>character</div>)
+            return (
+             <Card key={index} character={character}/>)
           })}
           </div>
           <Button className='load-more-button' variant="outlined">Load More</Button>
