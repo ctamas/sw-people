@@ -1,35 +1,44 @@
-.navbar-brand {
-  text-decoration: none;
-  color: black;
-  font-size: x-large;
-}
-
-.navbar {
-  background: lightgrey;
-  padding: 12px;
-}
-
-.app-content {
-
-}
-
+/* Search */
 .search-container {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.search-field {
+.search-form {
   width: 100%;
-  max-width: 400px;
-  margin: 16px !important;
+
 }
 
+.search-field-container {
+  width: 100%;
+  margin: 16px 0 16px 24px !important;
+  max-width: 400px;
+  display: inline-flex;
+}
+
+.search-field {
+  width: 100%;
+}
+
+.search-clear {
+  position: relative;
+  left: -26px;
+  top: 19px;
+}
+
+.search-button {
+  height: 40px;
+  width: 180px;
+}
+
+/* Results */
 .results-container {
   margin: 16px;
 }
 
 .filter-label {
+  color: black !important;
   margin-top: 12px;
 }
 
@@ -38,33 +47,12 @@
 }
 
 .load-more-button {
+  margin-top: 8px !important;
   width: 100%;
+  height: 40px;
 }
 
-.character-card {
-  padding: 8px;
-  width: 100%;
-  display: inline-flex;
-  align-items: center;
-  flex-direction: column;
-  margin-right: 8px;
-  margin-bottom: 8px;
-  border: 1px solid black;
-  max-width: calc(25% - 8px);
-  box-sizing: border-box;
-  border-radius: 4px;
-}
-
-@media screen and (max-width: 1280px) {
-  .character-card {
-    max-width: calc(33.3% - 8px);
-    box-sizing: border-box;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .character-card {
-    max-width: calc(50% - 8px);
-    box-sizing: border-box;
-  }
+/* General */
+.hidden {
+  opacity: 0;
 }

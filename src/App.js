@@ -1,29 +1,30 @@
 import './App.css';
+import React from 'react';
+import Cards from './components/cards/cards'
+import Navbar from './components/navbar/navbar'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import React from 'react';
-import Card from './components/card'
+import ClearIcon from '@mui/icons-material/Clear';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 function App() {
   const [characters, setCharacters] = React.useState([]);
   const [loading, setLoading] = React.useState(false)
   const [errorText, setErrorText] = React.useState('')
   const [characterCount, setCharacterCount] = React.useState(0)
-  const [searchText, setSearchText] = React.useState('')
   const [sortSelector, setSortSelector] = React.useState('Unsorted')
-  const previousSearch = React.useRef('')
-  const nextPage = React.useRef(1);
+  const [searchText, setSearchText] = React.useState('');
+  const [lastSearchText, setLastSearchText] = React.useState('');
+  const nextPage = React.useRef('');
 
-  function loadPeople() {
-    setLoading(true);
-    if (previousSearch.current !== searchText) {
-      nextPage.current = 1;
-    }
+  // New search = discard current page and start from page 1, otherwise append results
+  function loadPeople(newSearch, searchName = searchText) {
     // Let chart component know loading is in progress.
-    fetch("https://swapi.dev/api/people/?page=" + nextPage.current + "&search=" + searchText)
+    setLoading(true);
+    fetch("https://swapi.dev/api/people/?page=" + (newSearch ? '1' : nextPage.current) + "&search=" + searchName)
       .then(res => res.json())
       .then(
         result => {
@@ -31,17 +32,15 @@ function App() {
           const slimResult = result?.results?.map((result) => {
             return { name: result.name, gender: result.gender }
           })
-          console.log('previousSearch.current', previousSearch.current, 'searchText', searchText)
-          if (previousSearch.current !== searchText) {
-            setCharacters(sortResults(slimResult));
+          if (newSearch) {
+            setSortSelector('Unsorted');
+            setCharacters(slimResult);
           } else {
             setCharacters(sortResults([...characters, ...slimResult]));
           }
-          if (result.next) {
-            nextPage.current = result.next.replace(/\D/g, '');
-          }
-          previousSearch.current = searchText;
+          nextPage.current = result.next?.replace(/\D/g, '');
           setCharacterCount(result.count);
+          setLastSearchText(searchName);
           setLoading(false);
         },
         error => {
@@ -50,7 +49,6 @@ function App() {
         }
       );
   };
-
 
   function sortResults(results, sorting = sortSelector) {
     switch (sorting) {
@@ -91,31 +89,47 @@ function App() {
   function handleSearchTextChange(event) {
     setSearchText(event.target.value);
   };
+  
+  function handleSearchSubmit(event) {
+    event.preventDefault();
+    loadPeople(true);
+  };
+  
+  function handleClearSearch() {
+    setSearchText('')
+    loadPeople(true, '');
+  };
 
   function handleSortChange(event) {
     setSortSelector(event.target.value);
     setCharacters(sortResults(characters, event.target.value))
+  };
 
+  function handleLoadMore() {
+    loadPeople(false, lastSearchText);
   };
 
   React.useEffect(() => {
-    loadPeople();
+    loadPeople(false);
   }, []);
 
   return (
-    <div className="App">
-      <nav className="navbar">
-        <a
-          className="navbar-brand"
-          href="https://ctamas.github.io/sw-people/"
-        >
-          <i className="far fa-chart-bar" />
-          <span id="title">Star Wars Character Search</span>
-        </a>
-      </nav>
+    <div>
+      <Navbar />
       <div className='search-container'>
-        <TextField className='search-field' label="Search Character" onChange={handleSearchTextChange} value={searchText} variant="standard" />
-        <Button className='search-button' onClick={loadPeople} variant="outlined">Search Character</Button>
+        <div className='search-field-container'>
+          <form className='search-form' onSubmit={handleSearchSubmit}>
+            <TextField className='search-field' label="Search Character" onChange={handleSearchTextChange} value={searchText} variant="standard" />
+          </form>
+          <ClearIcon className={(!searchText ? 'hidden' : '') + ' search-clear'} onClick={handleClearSearch} />
+        </div>
+        <Button className='search-button' onClick={() => loadPeople(true)} variant="outlined" disabled={searchText === lastSearchText}>
+          {loading ? (
+            <RefreshIcon />
+          ) : (
+            <span>Search Character</span>
+          )}
+        </Button>
       </div>
       <div className='app-content'>
         {characters?.length > 0 && (
@@ -144,13 +158,18 @@ function App() {
               <span>No results!</span>
             )}
             <span>{errorText}</span>
-            {characters && characters.map((character, index) => {
-              return (
-                <Card key={index} index={index} character={character} />)
-            })}
+            {characters && (
+              <Cards characters={characters} />
+            )}
           </div>
-          {nextPage && (
-            <Button className='load-more-button' onClick={loadPeople} variant="outlined">Load More</Button>
+          {nextPage.current && (
+            <Button className='load-more-button' onClick={handleLoadMore} variant="outlined">
+              {loading ? (
+                <RefreshIcon />
+              ) : (
+                <span>Load More</span>
+              )}
+            </Button>
           )}
         </div>
       </div>
