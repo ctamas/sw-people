@@ -20,27 +20,40 @@ function App() {
   const [lastSearchText, setLastSearchText] = React.useState('');
   const nextPage = React.useRef('');
 
-  // New search = discard current page and start from page 1, otherwise append results
-  function loadPeople(newSearch, searchName = searchText) {
-    // Let chart component know loading is in progress.
+  // New search = discard current page and start from page 1
+  function newSearch(searchName = searchText) {
     setLoading(true);
-    fetch("https://swapi.dev/api/people/?page=" + (newSearch ? '1' : nextPage.current) + "&search=" + searchName)
+    fetch('https://swapi.dev/api/people/?page=1&search=' + searchName)
       .then(res => res.json())
       .then(
         result => {
-          // Only keep the data we need
-          const slimResult = result?.results?.map((result) => {
-            return { name: result.name, gender: result.gender }
-          })
-          if (newSearch) {
-            setSortSelector('Unsorted');
-            setCharacters(slimResult);
-          } else {
-            setCharacters(sortResults([...characters, ...slimResult]));
-          }
+          // Reset sort if we are starting a new search as opposed to loading more
+          setSortSelector('Unsorted');
+          setCharacters(result?.results);
+          // Get next page from result.next property, also works with double digit pages
           nextPage.current = result.next?.replace(/\D/g, '');
           setCharacterCount(result.count);
           setLastSearchText(searchName);
+          setLoading(false);
+        },
+        error => {
+          setLoading(false);
+          setErrorText(error);
+        }
+      );
+  };
+
+  // Reuse last query to append to current result list
+  function loadMore() {
+    setLoading(true);
+    fetch("https://swapi.dev/api/people/?page=" + nextPage.current + "&search=" + lastSearchText)
+      .then(res => res.json())
+      .then(
+        result => {
+          setCharacters(sortResults([...characters, ...result?.results]));
+          // Get next page from result.next property, also works with double digit pages
+          nextPage.current = result.next?.replace(/\D/g, '');
+          setCharacterCount(result.count);
           setLoading(false);
         },
         error => {
@@ -89,15 +102,18 @@ function App() {
   function handleSearchTextChange(event) {
     setSearchText(event.target.value);
   };
-  
+
   function handleSearchSubmit(event) {
     event.preventDefault();
-    loadPeople(true);
+    // Prevent a search that would do nothing
+    if (searchText !== lastSearchText) {
+      newSearch();
+    }
   };
-  
+
   function handleClearSearch() {
     setSearchText('')
-    loadPeople(true, '');
+    newSearch('');
   };
 
   function handleSortChange(event) {
@@ -106,11 +122,13 @@ function App() {
   };
 
   function handleLoadMore() {
-    loadPeople(false, lastSearchText);
+    // Prevent changed search field content from interfering with Load more
+    setSearchText(lastSearchText);
+    loadMore();
   };
 
   React.useEffect(() => {
-    loadPeople(false);
+    newSearch();
   }, []);
 
   return (
@@ -123,7 +141,7 @@ function App() {
           </form>
           <ClearIcon className={(!searchText ? 'hidden' : '') + ' search-clear'} onClick={handleClearSearch} />
         </div>
-        <Button className='search-button' onClick={() => loadPeople(true)} variant="outlined" disabled={searchText === lastSearchText}>
+        <Button className='search-button' onClick={handleSearchSubmit} variant="outlined" disabled={searchText === lastSearchText}>
           {loading ? (
             <RefreshIcon />
           ) : (
@@ -135,6 +153,7 @@ function App() {
         {characters?.length > 0 && (
           <div className='results-container'>
             <span>Showing {characters?.length} results of {characterCount}</span>
+            {lastSearchText && (<span> for "{lastSearchText}"</span>)}
             <InputLabel className='filter-label'>Sort by</InputLabel>
             <Select
               value={sortSelector}
