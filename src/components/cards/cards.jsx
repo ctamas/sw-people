@@ -8,7 +8,7 @@ function Cards(props) {
         <React.Fragment>
             {props.characters?.map((character, index) => {
                 return (
-                    <div key={index} className='character-card'>
+                    <div key={index} className='character-card' data-testid='test-character-card'>
                         <img src={index % 2 ? iconRed : iconBlack} alt='Star wars icon' className='character-picture' />
                         <span className='character-name'>{character.name}</span>
                     </div>

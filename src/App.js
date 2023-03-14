@@ -47,7 +47,7 @@ function App() {
   // Reuse last query to append to current result list
   function loadMore() {
     setLoading(true);
-    fetch("https://swapi.dev/api/people/?page=" + nextPage.current + "&search=" + lastSearchText)
+    fetch('https://swapi.dev/api/people/?page=' + nextPage.current + '&search=' + lastSearchText)
       .then(res => res.json())
       .then(
         result => {
@@ -139,16 +139,16 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div data-testid='test-root-component'>
       <Navbar />
       <div className='search-container'>
         <div className='search-field-container'>
           <form className='search-form' onSubmit={handleSearchSubmit}>
-            <TextField className='search-field' label="Search Character" onChange={handleSearchTextChange} value={searchText} variant="standard" />
+            <TextField className='search-field' label='Search Character' onChange={handleSearchTextChange} value={searchText} variant='standard' />
           </form>
           <ClearIcon className={(!searchText ? 'hidden' : '') + ' search-clear'} onClick={handleClearSearch} />
         </div>
-        <Button className='search-button' onClick={handleSearchSubmit} variant="outlined" disabled={searchText === lastSearchText}>
+        <Button className='search-button' onClick={handleSearchSubmit} variant='outlined' disabled={searchText === lastSearchText}>
           {loading ? (
             <RefreshIcon className='rotate' />
           ) : (
@@ -160,7 +160,7 @@ function App() {
         {characters?.length > 0 && (
           <div className='results-container'>
             <span>Showing {characters?.length} results of {characterCount}</span>
-            {lastSearchText && (<span> for "{lastSearchText}"</span>)}
+            {lastSearchText && (<span> for '{lastSearchText}'</span>)}
             <InputLabel className='filter-label'>Sort by</InputLabel>
             <Select
               value={sortSelector}
@@ -181,7 +181,7 @@ function App() {
               <span>Loading...</span>
             )}
             {!loading && !characters?.length && (
-              <span>No results {lastSearchText && (<span> for "{lastSearchText}"</span>)}!</span>
+              <span>No results {lastSearchText && (<span> for '{lastSearchText}'</span>)}!</span>
             )}
             <span>{errorText}</span>
             {characters && (
@@ -189,7 +189,7 @@ function App() {
             )}
           </div>
           {nextPage.current && (
-            <Button className='load-more-button' onClick={handleLoadMore} variant="outlined">
+            <Button className='load-more-button' onClick={handleLoadMore} variant='outlined'>
               {loading ? (
                 <RefreshIcon className='rotate' />
               ) : (

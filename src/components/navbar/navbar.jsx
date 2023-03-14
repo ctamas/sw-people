@@ -4,10 +4,10 @@ import StarsIcon from '@mui/icons-material/Stars';
 
 function Navbar() {
     return (
-        <nav className="navbar">
+        <nav className='navbar'>
             <a
-                className="navbar-brand"
-                href="https://ctamas.github.io/sw-people/"
+                className='navbar-brand'
+                href='https://ctamas.github.io/sw-people/'
             >
                 <StarsIcon />
                 <span className='navbar-title'>Star Wars Character Search</span>
