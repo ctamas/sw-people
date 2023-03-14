@@ -57,16 +57,16 @@ test('renders root component', () => {
 test('calls API mock upon initialization', async () => {
   render(<App />);
   expect(windowFetchSpy).toHaveBeenCalled();
-}, 5000);
+}, 1000);
 
 test('renders result counter with 3 results', async () => {
   render(<App />);
   const resultCount = await screen.findByText(/Showing 3 results/i)
   expect(resultCount).toBeInTheDocument();
-}, 5000);
+}, 1000);
 
 test('renders 3 cards', async () => {
   render(<App />);
   const characterCards = await screen.findAllByTestId('test-character-card')
   expect(characterCards).toHaveLength(3);
-}, 5000); 
+}, 1000); 
