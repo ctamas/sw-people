@@ -21,17 +21,18 @@ function App() {
   const nextPage = React.useRef('');
 
   // New search = discard current page and start from page 1
+  // Property provides an override for a different search word compared to the input box value
   function newSearch(searchName = searchText) {
     setLoading(true);
     fetch('https://swapi.dev/api/people/?page=1&search=' + searchName)
       .then(res => res.json())
       .then(
         result => {
-          // Reset sort if we are starting a new search as opposed to loading more
+          // Reset sort as we are starting a new search
           setSortSelector('Unsorted');
           setCharacters(result?.results);
           // Get next page from result.next property, also works with double digit pages
-          nextPage.current = result.next?.replace(/\D/g, '');
+          setNextPage(result.next);
           setCharacterCount(result.count);
           setLastSearchText(searchName);
           setLoading(false);
@@ -50,9 +51,10 @@ function App() {
       .then(res => res.json())
       .then(
         result => {
+          // Sort again with the new additions
           setCharacters(sortResults([...characters, ...result?.results]));
           // Get next page from result.next property, also works with double digit pages
-          nextPage.current = result.next?.replace(/\D/g, '');
+          setNextPage(result.next);
           setCharacterCount(result.count);
           setLoading(false);
         },
@@ -62,6 +64,11 @@ function App() {
         }
       );
   };
+
+  function setNextPage(next) {
+    nextPage.current = next?.replace(/\D/g, '');
+
+  }
 
   function sortResults(results, sorting = sortSelector) {
     switch (sorting) {
@@ -112,7 +119,7 @@ function App() {
   };
 
   function handleClearSearch() {
-    setSearchText('')
+    setSearchText('');
     newSearch('');
   };
 
@@ -143,7 +150,7 @@ function App() {
         </div>
         <Button className='search-button' onClick={handleSearchSubmit} variant="outlined" disabled={searchText === lastSearchText}>
           {loading ? (
-            <RefreshIcon />
+            <RefreshIcon className='rotate' />
           ) : (
             <span>Search Character</span>
           )}
@@ -174,7 +181,7 @@ function App() {
               <span>Loading...</span>
             )}
             {!loading && !characters?.length && (
-              <span>No results!</span>
+              <span>No results {lastSearchText && (<span> for "{lastSearchText}"</span>)}!</span>
             )}
             <span>{errorText}</span>
             {characters && (
@@ -184,7 +191,7 @@ function App() {
           {nextPage.current && (
             <Button className='load-more-button' onClick={handleLoadMore} variant="outlined">
               {loading ? (
-                <RefreshIcon />
+                <RefreshIcon className='rotate' />
               ) : (
                 <span>Load More</span>
               )}
