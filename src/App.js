@@ -53,7 +53,6 @@ function App() {
         result => {
           // Sort again with the new additions
           setCharacters(sortResults([...characters, ...result?.results]));
-          // Get next page from result.next property, also works with double digit pages
           setNextPage(result.next);
           setCharacterCount(result.count);
           setLoading(false);
@@ -136,6 +135,7 @@ function App() {
 
   React.useEffect(() => {
     newSearch();
+    // eslint-disable-next-line
   }, []);
 
   return (
