@@ -1,3 +1,5 @@
+Star Wars API Character Search Demo
+
 Find live version at:
 
 https://ctamas.github.io/sw-people/
