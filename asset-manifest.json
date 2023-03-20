@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/sw-people/static/css/main.f2885a35.css",
-    "main.js": "/sw-people/static/js/main.c5e2433b.js",
+    "main.css": "/sw-people/static/css/main.9675c27b.css",
+    "main.js": "/sw-people/static/js/main.5c70ee55.js",
     "static/media/roboto-all-400-normal.woff": "/sw-people/static/media/roboto-all-400-normal.c5d001fa922fa66a147f.woff",
     "static/media/sw-black.png": "/sw-people/static/media/sw-black.fe5a64da5086cf540132.png",
     "static/media/sw-red.png": "/sw-people/static/media/sw-red.401c8826157919ec844a.png",
@@ -13,11 +13,11 @@
     "static/media/roboto-vietnamese-400-normal.woff2": "/sw-people/static/media/roboto-vietnamese-400-normal.3230f9b040f3c630e0c3.woff2",
     "static/media/roboto-greek-ext-400-normal.woff2": "/sw-people/static/media/roboto-greek-ext-400-normal.169619821ea93019d1bb.woff2",
     "index.html": "/sw-people/index.html",
-    "main.f2885a35.css.map": "/sw-people/static/css/main.f2885a35.css.map",
-    "main.c5e2433b.js.map": "/sw-people/static/js/main.c5e2433b.js.map"
+    "main.9675c27b.css.map": "/sw-people/static/css/main.9675c27b.css.map",
+    "main.5c70ee55.js.map": "/sw-people/static/js/main.5c70ee55.js.map"
   },
   "entrypoints": [
-    "static/css/main.f2885a35.css",
-    "static/js/main.c5e2433b.js"
+    "static/css/main.9675c27b.css",
+    "static/js/main.5c70ee55.js"
   ]
 }
