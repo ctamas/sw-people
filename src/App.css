@@ -33,13 +33,19 @@
 }
 
 /* Results */
-.results-container {
+.result-controls {
   margin: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter-select {
+  height: 32px;
 }
 
 .filter-label {
   color: black !important;
-  margin-top: 12px;
+  margin-right: 12px;
 }
 
 .results-list {
@@ -59,6 +65,11 @@
 
 .rotate {
   animation: rotation 1s infinite linear;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
 }
 
 @keyframes rotation {

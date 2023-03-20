@@ -20,7 +20,6 @@ function App() {
   const [lastSearchText, setLastSearchText] = React.useState('');
   const nextPage = React.useRef('');
 
-  // New search = discard current page and start from page 1
   // Property provides an override for a different search word compared to the input box value
   function newSearch(searchName = searchText) {
     setLoading(true);
@@ -31,7 +30,6 @@ function App() {
           // Reset sort as we are starting a new search
           setSortSelector('Unsorted');
           setCharacters(result?.results);
-          // Get next page from result.next property, also works with double digit pages
           setNextPage(result.next);
           setCharacterCount(result.count);
           setLastSearchText(searchName);
@@ -64,6 +62,7 @@ function App() {
       );
   };
 
+  // Get next page from result.next property, also works with double digit pages
   function setNextPage(next) {
     nextPage.current = next?.replace(/\D/g, '');
 
@@ -158,21 +157,23 @@ function App() {
       </div>
       <div className='app-content'>
         {characters?.length > 0 && (
-          <div className='results-container'>
-            <span>Showing {characters?.length} results of {characterCount}</span>
-            {lastSearchText && (<span> for '{lastSearchText}'</span>)}
-            <InputLabel className='filter-label'>Sort by</InputLabel>
-            <Select
-              value={sortSelector}
-              className='filter'
-              onChange={handleSortChange}
-            >
-              <MenuItem value={'Unsorted'}>Unsorted</MenuItem>
-              <MenuItem value={'A-Z'}>A-Z</MenuItem>
-              <MenuItem value={'Z-A'}>Z-A</MenuItem>
-              <MenuItem value={'Male'}>Male</MenuItem>
-              <MenuItem value={'Female'}>Female</MenuItem>
-            </Select>
+          <div className='result-controls'>
+            <span className='flex-center'>Showing {characters?.length} results of {characterCount}</span>
+            <div className='flex-center'>
+              {lastSearchText && (<span> for '{lastSearchText}'</span>)}
+              <InputLabel className='filter-label'>Sort by</InputLabel>
+              <Select
+                value={sortSelector}
+                className='filter-select'
+                onChange={handleSortChange}
+              >
+                <MenuItem value={'Unsorted'}>Unsorted</MenuItem>
+                <MenuItem value={'A-Z'}>A-Z</MenuItem>
+                <MenuItem value={'Z-A'}>Z-A</MenuItem>
+                <MenuItem value={'Male'}>Male</MenuItem>
+                <MenuItem value={'Female'}>Female</MenuItem>
+              </Select>
+            </div>
           </div>
         )}
         <div className='results-list'>

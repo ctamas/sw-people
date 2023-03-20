@@ -1,34 +1,41 @@
 /* Card */
 .character-card {
-    padding: 8px;
-    width: 100%;
-    display: inline-flex;
-    align-items: center;
-    flex-direction: column;
-    margin-right: 8px;
-    margin-bottom: 8px;
-    border: 1px solid black;
-    max-width: calc(25% - 8px);
+  width: 100%;
+  max-width: calc(25% - 8px);
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+@media screen and (max-width: 1280px) {
+  .character-card {
+    max-width: calc(33.3% - 8px);
     box-sizing: border-box;
-    border-radius: 4px;
   }
-  
-  @media screen and (max-width: 1280px) {
-    .character-card {
-      max-width: calc(33.3% - 8px);
-      box-sizing: border-box;
-    }
+}
+
+@media screen and (max-width: 600px) {
+  .character-card {
+    max-width: calc(50% - 8px);
+    box-sizing: border-box;
   }
-  
-  @media screen and (max-width: 600px) {
-    .character-card {
-      max-width: calc(50% - 8px);
-      box-sizing: border-box;
-    }
-  }
-  
-  .character-picture {
-    height: 64px;
-    width: 64px;
-  }
-  
+}
+
+.character-card:hover {
+  box-shadow: 3px 3px 2px lightgrey;
+}
+
+.character-picture {
+  height: 64px;
+  width: 64px;
+}
+
+.dialog-container {
+  min-width: 25vw;
+}
