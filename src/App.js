@@ -42,7 +42,7 @@ function App() {
       );
   };
 
-  // Reuse last query to append to current result list
+  // Reuse last query to append to the current result list
   function loadMore() {
     setLoading(true);
     fetch('https://swapi.dev/api/people/?page=' + nextPage.current + '&search=' + lastSearchText)

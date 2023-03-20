@@ -21,3 +21,10 @@ test('renders result counter with 3 results', () => {
     const characterCards = screen.getAllByTestId('test-character-card');
     expect(characterCards).toHaveLength(3);
 });
+
+
+test('finds name on card', async () => {
+    render(<Cards characters={mockedCardsData} />);
+    const resultCount = await screen.findByText(/Skywalker/i)
+    expect(resultCount).toBeInTheDocument();
+});
