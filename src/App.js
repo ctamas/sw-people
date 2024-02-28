@@ -158,9 +158,8 @@ function App() {
       <div className='app-content'>
         {characters?.length > 0 && (
           <div className='result-controls'>
-            <span className='flex-center'>Showing {characters?.length} results of {characterCount}</span>
+            <span className='flex-center'>Showing {characters?.length} results of {characterCount} {lastSearchText && (<span>&nbsp;for '{lastSearchText}'</span>)}</span>
             <div className='flex-center'>
-              {lastSearchText && (<span> for '{lastSearchText}'</span>)}
               <InputLabel className='filter-label'>Sort by</InputLabel>
               <Select
                 value={sortSelector}
